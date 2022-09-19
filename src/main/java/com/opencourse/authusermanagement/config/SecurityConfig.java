@@ -2,6 +2,7 @@ package com.opencourse.authusermanagement.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +17,11 @@ public class SecurityConfig {
         http.csrf().disable();
         http.cors().disable();
         http.httpBasic().disable();
-        http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().mvcMatchers("**/auth/**").permitAll();
+        http.authorizeRequests().mvcMatchers("/api/v1/user/request").hasRole("ADMIN");
+        http.authorizeRequests().mvcMatchers("/api/v1/user/ban").hasRole("ADMIN");
+        http.authorizeRequests().mvcMatchers(HttpMethod.POST,"/api/v1/user/mentor").hasAnyRole("ADMIN","MENTOR","STUDENT","TEACHER");
+        http.authorizeRequests().mvcMatchers("/api/v1/user/**").permitAll();
         return http.build();
     }
 

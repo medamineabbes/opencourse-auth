@@ -62,7 +62,7 @@ public class CustomExceptionsHandler {
     public ResponseEntity<ApiError> handleUserNotFoundException(UserNotFoundException ex,WebRequest request){
         ApiError error=new ApiError();
         error.setErrorMsg(ex.getMessage());
-        error.setStatus(HttpStatus.UNAUTHORIZED);
+        error.setStatus(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(error,error.getStatus());
     }
 
