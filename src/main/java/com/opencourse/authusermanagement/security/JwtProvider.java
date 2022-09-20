@@ -62,13 +62,11 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(String token){
-
         Decoder decoder=Base64.getDecoder();
         String[] chunks=token.split("\\.");
         String payload=new String(decoder.decode(chunks[1]));
         JSONObject body=new JSONObject(payload);
-        JwtAuthentication authentication=new JwtAuthentication(body.getLong("id"), 
-        body.getString("sub"), 
+        Authentication authentication=new JwtAuthentication(body.getLong("id"),  
         body.getString("role"), 
         true);
         return authentication;

@@ -8,24 +8,21 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 public class JwtAuthentication implements Authentication{
 
-    private final Long id;
-    private final String email;
-    private final String role;
+    private Long id;
+    private String role;
     private boolean authenticated;
     
     @Override
     public String getName() {
-        return email;
+        return String.valueOf(id);
     }
     
-    public Long getId(){
-        return id;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));

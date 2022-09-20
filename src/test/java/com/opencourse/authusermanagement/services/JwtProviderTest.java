@@ -38,7 +38,6 @@ public class JwtProviderTest{
         String token=provider.createToken(amine);
         JwtAuthentication auth=(JwtAuthentication) provider.getAuthentication(token);
 
-        assertEquals(amine.getId(),auth.getId());
         assertEquals(amine.getEmail(),auth.getName());
         assertTrue(auth.getAuthorities().contains(new SimpleGrantedAuthority(amine.getRole().toString())));
     }

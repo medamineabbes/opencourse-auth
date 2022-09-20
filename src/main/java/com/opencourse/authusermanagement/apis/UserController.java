@@ -3,11 +3,13 @@ package com.opencourse.authusermanagement.apis;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.opencourse.authusermanagement.dtos.UserRequestDto;
@@ -30,7 +32,7 @@ public class UserController {
     }
 
     //all
-    @GetMapping("/mentor")
+    @GetMapping("/mentors")
     public ResponseEntity<List<UserRequestDto>> getAllMentors(){
         List<UserRequestDto> mentors=service.getAllMentors();
         return ResponseEntity.ok(mentors);
@@ -38,15 +40,16 @@ public class UserController {
 
     //authentic users only
     @PostMapping("/mentor")
-    public ResponseEntity<Object> selectMentor(@RequestBody(required = true) Long mentorId){
-        Long userId=1L;
+    public ResponseEntity<Object> selectMentor(@RequestParam(required = true) Long mentorId){
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        Long userId=Long.valueOf(auth.getName());
         service.selectMentor(userId, mentorId);
         return ResponseEntity.ok().build();
     }
 
     //only admin
     @PostMapping("/ban")
-    public ResponseEntity<Object> banUser(@RequestBody(required = true) Long userId){
+    public ResponseEntity<Object> banUser(@RequestParam(required = true) Long userId){
         service.banUser(userId);
         return ResponseEntity.ok().build();
     }
