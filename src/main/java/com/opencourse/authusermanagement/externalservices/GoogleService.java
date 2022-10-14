@@ -16,8 +16,11 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.opencourse.authusermanagement.dtos.UserDataDto;
 import com.opencourse.authusermanagement.exceptions.CustomAuthenticationException;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @Service
+@Slf4j
 public class GoogleService {
     
     private GoogleIdTokenVerifier verifier;
@@ -35,11 +38,11 @@ public class GoogleService {
 
     //verify if token is valid
     public UserDataDto getUserData(String token){
-        this.init();
         GoogleIdToken idToken;
         try {
             idToken=verifier.verify(token);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new CustomAuthenticationException("something went wrong");
         }
 
@@ -48,7 +51,7 @@ public class GoogleService {
             Payload payload=idToken.getPayload();
             UserDataDto userData=new UserDataDto();
             userData.setEmail(payload.getEmail());
-            userData.setFirstname(payload.get("name").toString());
+            userData.setFirstname(payload.get("given_name").toString());
             userData.setLastname(payload.get("family_name").toString());
             userData.setImageUrl(payload.get("picture").toString());
 
