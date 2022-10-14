@@ -85,7 +85,7 @@ public class AuthenticationService {
     public String loginwithGoogle(String googleToken){
 
         //get user info from google service
-        UserDataDto userDataDto =google.getUserData(googleToken);
+        UserDataDto userDataDto = google.getUserData(googleToken);
         userDataDto.setRole(Role.STUDENT.toString());
         //check if user exists
         //if not then add to database

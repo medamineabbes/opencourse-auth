@@ -32,7 +32,7 @@ public class GoogleService {
         jsonFactory=JacksonFactory.getDefaultInstance();
         transport=new NetHttpTransport();
         verifier=new GoogleIdTokenVerifier.Builder(transport,jsonFactory)
-        .setAudience(List.of("frontendclientidpro"))
+        .setAudience(List.of("779824097278-m4tkkenan7f5vorvijl6idosl7lgvue1.apps.googleusercontent.com"))
         .build();
     }
 
@@ -54,6 +54,7 @@ public class GoogleService {
             userData.setFirstname(payload.get("given_name").toString());
             userData.setLastname(payload.get("family_name").toString());
             userData.setImageUrl(payload.get("picture").toString());
+            
             return userData;
         }else{
             return null;

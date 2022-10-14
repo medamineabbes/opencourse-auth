@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.opencourse.authusermanagement.exceptions.CustomAuthenticationException;
 import com.opencourse.authusermanagement.security.JwtProvider;
 
 import lombok.AllArgsConstructor;
