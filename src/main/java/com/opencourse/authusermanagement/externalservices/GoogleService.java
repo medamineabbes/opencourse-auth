@@ -16,7 +16,10 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.opencourse.authusermanagement.dtos.UserDataDto;
 import com.opencourse.authusermanagement.exceptions.CustomAuthenticationException;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class GoogleService {
     
     private GoogleIdTokenVerifier verifier;
@@ -53,8 +56,10 @@ public class GoogleService {
 
             return userData;
 
-        }else
-        return null;
+        }else{
+            log.warn("idToken is null");
+            return null;
+        }
     }
 
 }

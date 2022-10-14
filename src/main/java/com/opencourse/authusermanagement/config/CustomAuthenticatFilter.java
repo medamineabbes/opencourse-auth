@@ -1,21 +1,26 @@
 package com.opencourse.authusermanagement.config;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencourse.authusermanagement.exceptions.CustomAuthenticationException;
 import com.opencourse.authusermanagement.security.JwtProvider;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
@@ -34,7 +39,15 @@ public class CustomAuthenticatFilter extends OncePerRequestFilter{
         if(token!=null){
             //token is invalid
             if(!provider.isValid(token))
-            throw new CustomAuthenticationException();
+            {
+                ServletOutputStream stream=response.getOutputStream();
+                ObjectMapper mapper=new ObjectMapper();
+                ApiError error=new ApiError();
+                error.setErrorMsg("your session has expired");
+                error.setStatus(HttpStatus.UNAUTHORIZED);
+                stream.print(mapper.writeValueAsString(error));
+                return;
+            }
             
             //token is valid
             Authentication auth=provider.getAuthentication(token);
@@ -48,4 +61,10 @@ public class CustomAuthenticatFilter extends OncePerRequestFilter{
         chain.doFilter(request, response);
     }
     
+}
+@Data
+class ApiError{
+    private HttpStatus status;
+    private String errorMsg;
+    private List<String> errors;
 }
