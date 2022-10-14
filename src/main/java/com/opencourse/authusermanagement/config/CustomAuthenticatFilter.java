@@ -35,7 +35,6 @@ public class CustomAuthenticatFilter extends OncePerRequestFilter{
             throws IOException, ServletException {
                 
         String token=request.getHeader("Authentication");
-        log.info("filter is running");
         if(token!=null){
             //token is invalid
             if(!provider.isValid(token))
@@ -55,7 +54,6 @@ public class CustomAuthenticatFilter extends OncePerRequestFilter{
             log.info("role is " + auth.getAuthorities().toString());
         }else{//no token
             SecurityContextHolder.getContext().setAuthentication(null);
-            log.warn("no token found");
         }
         
         chain.doFilter(request, response);

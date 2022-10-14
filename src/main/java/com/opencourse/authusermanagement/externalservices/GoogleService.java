@@ -48,16 +48,13 @@ public class GoogleService {
         }
 
         if(idToken != null){
-
             Payload payload=idToken.getPayload();
             UserDataDto userData=new UserDataDto();
             userData.setEmail(payload.getEmail());
             userData.setFirstname(payload.get("given_name").toString());
             userData.setLastname(payload.get("family_name").toString());
             userData.setImageUrl(payload.get("picture").toString());
-
             return userData;
-
         }else{
             return null;
         }
