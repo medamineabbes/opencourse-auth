@@ -42,7 +42,8 @@ public class GoogleService {
         try {
             idToken=verifier.verify(token);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            log.error(e.getLocalizedMessage());
             throw new CustomAuthenticationException("something went wrong");
         }
 
